@@ -12,8 +12,7 @@ This doc explains:
 
 * **IV. Status, Open Issues (eg, not working on windows)** 
 
-
-We presume you have Python,  `pip installed` ApiLogicServer (version >= 09.01.25 - [preview here](https://apilogicserver.github.io/Docs/#preview-version)), and docker.
+This presumes you have Python, and docker.
 
 &nbsp;
 
@@ -54,7 +53,81 @@ Follow this procedure to obtain the *empty* project from git:
 
 &nbsp;
 
-# I. Running the git project as image
+# I. Create the Project
+
+Follow the steps below:
+
+&nbsp;
+
+## 1. Start the postgres database container:
+
+```bash
+docker run --name mysql-container --net dev-network -p 3306:3306 -d -e MYSQL_ROOT_PASSWORD=p apilogicserver/mysql8.0:latest
+
+```
+
+Verify it looks like this:
+
+![Authdb](images/postgres-authdb.png)
+
+&nbsp;
+
+## 2. Create the Project:
+
+Create the project with API Logic Server in the directory indicted below, as a sibling of this project obtained from github:
+
+```bash
+ApiLogicServer create --project_name=. --db_url=mysql+pymysql://root:p@localhost:3306/classicmodels
+```
+
+![Project Structure](images/docker-compose.png)
+
+&nbsp;
+
+## 3. Verify proper operation
+
+The project should be ready to run without customization:
+
+1. Open the project in VSCode
+
+2. Establish your (possibly preview) virtual environment
+
+3. Press F5 to run the server
+
+4. Run the [Admin App](http://localhost:5656), and Swagger
+
+&nbsp;
+
+## 4. Add Security - using the terminal window inside VSCode:
+
+**Stop the server.**
+
+Using the terminal window **inside VSCode:**
+
+```bash
+ApiLogicServer add-auth --project_name=. --db_url=mysql+pymysql://root:p@localhost:3306/authdb
+```
+Re-run the project (F5), observe you need to login.  Observe further that **u1** does not work - you need to use ***admin***.
+
+&nbsp;
+
+## 5. Obtain the web app
+
+The git project does not store these files, so you must obtain them:
+
+```bash
+pushd devops/docker-compose
+sh install-webapp.sh
+popd
+```
+
+You have now recreated the git project.  You should be able to execute the instructions at the [top of this page](#i-running-the-git-project-as-image).
+
+&nbsp;
+
+&nbsp;
+
+# II. Running the git project as image
 
 &nbsp;
 
@@ -112,7 +185,7 @@ You can also run the [Authentication Administration App](http://localhost:5656/a
 
 &nbsp;
 
-# II. Running the git project as docker-compose
+# III. Running the git project as docker-compose
 
 &nbsp;
 

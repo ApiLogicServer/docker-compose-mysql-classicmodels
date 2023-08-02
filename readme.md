@@ -59,7 +59,7 @@ Follow the steps below:
 
 &nbsp;
 
-## 1. Start the postgres database container:
+## 1. Start the MySQL database container:
 
 ```bash
 docker run --name mysql-container --net dev-network -p 3306:3306 -d -e MYSQL_ROOT_PASSWORD=p apilogicserver/mysql8.0:latest
@@ -102,26 +102,12 @@ The project should be ready to run without customization:
 
 **Stop the server.**
 
-Using the terminal window **inside VSCode:**
+Open a new terminal window **in VSCode:**
 
 ```bash
 ApiLogicServer add-auth --project_name=. --db_url=mysql+pymysql://root:p@localhost:3306/authdb
 ```
-Re-run the project (F5), observe you need to login.  Observe further that **u1** does not work - you need to use ***admin***.
-
-&nbsp;
-
-## 5. Obtain the web app
-
-The git project does not store these files, so you must obtain them:
-
-```bash
-pushd devops/docker-compose
-sh install-webapp.sh
-popd
-```
-
-You have now recreated the git project.  You should be able to execute the instructions at the [top of this page](#i-running-the-git-project-as-image).
+Re-run the project (F5), observe you need to login (***admin, p***).
 
 &nbsp;
 
@@ -144,28 +130,18 @@ sh devops/docker-image/build_image.sh .
 
 &nbsp;
 
-## 2. Start the database
+## 2. Configure the server
 
-First, if you haven't already done so, start the database:
+When run from a container, the database uri using `localhost` (from above) does not work.  Edit the [`devops/docker-image/env.list`](devops/docker-image/env.list):
 
-```bash
-docker run -d --name postgresql-container --net dev-network -p 5432:5432 -e PGDATA=/pgdata -e POSTGRES_PASSWORD=p apilogicserver/postgres:latest
+```
+APILOGICPROJECT_SQLALCHEMY_DATABASE_URI=mysql+pymysql://root:p@mysql-container:3306/classicmodels
+APILOGICPROJECT_SQLALCHEMY_DATABASE_URI_AUTHENTICATION=mysql+pymysql://root:p@mysql-container:3306/authdb
 ```
 
 &nbsp;
 
-## 3. Configure the server
-
-When run from a container, the database uri using `localhost` (from [ApiLogicServer create](#2-create-the-project)) does not work.  Observe the [`devops/docker-image/env.list`](devops/docker-image/env.list):
-
-```
-APILOGICPROJECT_SQLALCHEMY_DATABASE_URI=postgresql://postgres:p@postgresql-container/postgres
-APILOGICPROJECT_SQLALCHEMY_DATABASE_URI_AUTHENTICATION=postgresql://postgres:p@postgresql-container/authdb
-```
-
-&nbsp;
-
-## 4. Start the Server
+## 3. Start the Server
 
 Use the pre-created command line script:
 
@@ -175,7 +151,7 @@ sh devops/docker-image/run_image.sh
 
 &nbsp;
 
-## 5. Run the App
+## 4. Run the App
 
 Run the [Admin App](http://localhost:5656), and Swagger.
 
@@ -189,11 +165,13 @@ You can also run the [Authentication Administration App](http://localhost:5656/a
 
 &nbsp;
 
-## 1. Stop the docker database
+## 1. Stop the server and docker database
 
-The procedure below will spin up *another* database container.
+Press ctl-C to stop the API Logic Project container.
 
-Ensure you are not already running the API Logic Server postgres database in a docker container.  If it's running, you will see port conflicts.
+The procedure below will spin up *another* database container.  If the current database container is running, you will see port conflicts.
+
+**Stop** the database container (e.g., using Docker Desktop).
 
 &nbsp;
 

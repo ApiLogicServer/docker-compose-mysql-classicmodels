@@ -1,4 +1,4 @@
-# Postgres ApiLogicProject using Docker and docker-compose
+# MySQL ApiLogicProject using Docker and docker-compose
 
 This project illustrates using API Logic Server with Docker and docker-compose.  The objective is to provide a simple way to explore using docker with API Logic Server on your local machine.  These are *not* production procedures - they are designed for simple local machine operation.
 
@@ -30,23 +30,13 @@ Install the current (or [preview](https://apilogicserver.github.io/Docs/#preview
 
 &nbsp;
 
-## 2. Create the postgres database container:
-
-The image contains not only Postgres, but also the `Northwind` and `authdb` databases.
-
-```bash
-docker run -d --name postgresql-container --net dev-network -p 5432:5432 -e PGDATA=/pgdata -e POSTGRES_PASSWORD=p apilogicserver/postgres:latest
-```
-
-&nbsp;
-
-## 3. Install this project from git
+## 2. Install this project from git
 
 Follow this procedure to obtain the *empty* project from git:
 
 ```
 # git clone https://github.com/ApiLogicServer/docker-compose-mysql-classicmodels.git
-# cd docker-compose-nw-postgres
+# cd docker-compose-mysql-classicmodels
 ```
 
 &nbsp;
@@ -205,7 +195,7 @@ If that fails (e.g., windows), enter your port into [`devops/docker-image/docker
 Then, use the following to build, deploy and start the default container stack locally:
 
 ```
-# cd postgres-docker-compose  # <project-root>
+# cd docker-compose-mysql-classicmodels  # <project-root>
 # docker-compose -f ./devops/docker-compose/docker-compose.yml up
 ```
 
@@ -215,7 +205,7 @@ Then, in your browser, open [`localhost`](http://localhost).
 
 ## 4. Add Security
 
-The postgres database contains `authdb`.  To activate security, update [`devops/docker-compose/docker-compose.yml`](devops/docker-compose/docker-compose.yml):
+The database contains `authdb`.  To activate security, update [`devops/docker-compose/docker-compose.yml`](devops/docker-compose/docker-compose.yml):
 
 1. Set `- SECURITY_ENABLED=true`
 

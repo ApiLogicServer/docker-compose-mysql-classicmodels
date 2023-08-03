@@ -124,7 +124,7 @@ sh devops/docker-image/build_image.sh .
 
 ## 2. Configure the server
 
-When run from a container, the database uri using `localhost` (from above) does not work.  Edit the [`devops/docker-image/env.list`](devops/docker-image/env.list):
+When run from a container, the database uri using `localhost` (from above) does not work.  Confirm the following in [`devops/docker-image/env.list`](devops/docker-image/env.list):
 
 ```
 APILOGICPROJECT_SQLALCHEMY_DATABASE_URI=mysql+pymysql://root:p@mysql-container:3306/classicmodels
@@ -179,9 +179,9 @@ popd
 
 &nbsp;
 
-## 3. COnfigure the database service
+## 3. Configure the database service
 
-Edit [`devops/docker-image/docker-compose.yml`](./devops/docker-compose/docker-compose.yml), and specify:
+Open [`devops/docker-image/docker-compose.yml`](./devops/docker-compose/docker-compose.yml), and observe:
 
 ```yaml
     mysql-service:

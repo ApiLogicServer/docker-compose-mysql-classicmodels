@@ -4,11 +4,11 @@ This project illustrates using API Logic Server with Docker and docker-compose. 
 
 This doc explains:
 
-* **I. Recreating the project** - how to rebuild the project from a docker database
+* **I. Creating the project** - create the project from a docker database
 
-* **II. Running the git project as an *image*** - create and run an image
+* **II. Running the project as an *image*** - create and run an image
 
-* **I#I. Running the git project as a *docker-compose*** - build, deploy and run
+* **I#I. Running the project as a *docker-compose*** - build, deploy and run
 
 * **IV. Status, Open Issues (eg, not working on windows)** 
 

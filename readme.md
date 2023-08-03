@@ -185,7 +185,7 @@ Open [`devops/docker-image/docker-compose.yml`](./devops/docker-compose/docker-c
 
 ```yaml
     mysql-service:
-        image: apilogicserver/mysql8.0:version1.0.7
+        image: apilogicserver/mysql8.0:latest
         restart: always
         environment:
         # MYSQL_DATABASE: 'db'

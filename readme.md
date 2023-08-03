@@ -92,7 +92,7 @@ The project should be ready to run without customization:
 
 **Stop the server.**
 
-Open a new terminal window **in VSCode:**
+Open a ***new* terminal window** in VSCode:
 
 ```bash
 ApiLogicServer add-auth --project_name=. --db_url=mysql+pymysql://root:p@localhost:3306/authdb

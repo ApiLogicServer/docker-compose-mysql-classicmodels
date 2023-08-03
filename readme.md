@@ -8,7 +8,7 @@ This doc explains:
 
 * **II. Running the project as an *image*** - create and run an image
 
-* **I#I. Running the project as a *docker-compose*** - build, deploy and run
+* **III. Running the project as a *docker-compose*** - build, deploy and run
 
 * **IV. Status, Open Issues (eg, not working on windows)** 
 
@@ -84,7 +84,7 @@ The project should be ready to run without customization:
 
 3. Press F5 to run the server
 
-4. Run the [Admin App](http://localhost:5656), and Swagger
+4. Run the [Admin App](http://localhost:5656), and Swagger.  Verify that customers returns data.
 
 &nbsp;
 
@@ -93,6 +93,8 @@ The project should be ready to run without customization:
 **Stop the server.**
 
 Open a ***new* terminal window** in VSCode:
+
+> The *current* terminal window has an old copy of the project root.  If you try to run, you will see *No such file or directory".  Just open another terminal window and repeat the command.
 
 ```bash
 ApiLogicServer add-auth --project_name=. --db_url=mysql+pymysql://root:p@localhost:3306/authdb
@@ -175,7 +177,35 @@ sh install-webapp.sh
 popd
 ```
 
-## 3. Build, Deploy and Run
+&nbsp;
+
+## 3. COnfigure the database service
+
+Edit [`devops/docker-image/docker-compose.yml`](./devops/docker-compose/docker-compose.yml), and specify:
+
+```yaml
+    mysql-service:
+        image: apilogicserver/mysql8.0:version1.0.7
+        restart: always
+        environment:
+        # MYSQL_DATABASE: 'db'
+        # So you don't have to use root, but you can if you like
+        MYSQL_USER: 'root'
+        # You can use whatever password you like
+        MYSQL_PASSWORD: 'p'
+        # Password for root access
+        MYSQL_ROOT_PASSWORD: 'p'
+        ports:
+        # <Port exposed> : <MySQL Port running inside container>
+        - '3306:3306'
+        expose:
+        # Opens port 3306 on the container
+        - '3306'
+```
+
+&nbsp;
+
+## 4. Build, Deploy and Run
 
 The following will build, deploy and start the container stack locally:
 
@@ -213,3 +243,9 @@ The database contains `authdb`.  To activate security, update [`devops/docker-co
 
 `          - APILOGICPROJECT_SQLALCHEMY_DATABASE_URI_AUTHENTICATION=postgresql://postgres:p@nw_postgres/authdb
 `
+&nbsp;
+&nbsp;
+
+# Status
+
+Failing to open web app: `502 Bad Gateway`

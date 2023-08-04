@@ -4,7 +4,7 @@ This project illustrates using API Logic Server with Docker and docker-compose. 
 
 This doc explains:
 
-* **I. Creating the project** - create the project from a docker database
+* **I. Creating the project** - create the project from a docker database and run under the IDE
 
 * **II. Running the project as an *image*** - create and run an image
 
@@ -26,7 +26,7 @@ Stop the docker-compose container, if it is running.
 
 ## 1. Install API Logic Server
 
-Install the current (or [preview](https://apilogicserver.github.io/Docs/#preview-version)).  Use the `ApiLogicServer` command to verify the version note above.
+Install the current (or [preview](https://apilogicserver.github.io/Docs/#preview-version)) release.  Use the `ApiLogicServer` command to verify the version > 9.1.33.
 
 &nbsp;
 
@@ -38,6 +38,8 @@ Follow this procedure to obtain the *empty* project from git:
 # git clone https://github.com/ApiLogicServer/docker-compose-mysql-classicmodels.git
 # cd docker-compose-mysql-classicmodels
 ```
+
+Open the project in your IDE, and estabish your `venv` virtual environment.
 
 &nbsp;
 
@@ -58,7 +60,7 @@ docker run --name mysql-container --net dev-network -p 3306:3306 -d -e MYSQL_ROO
 
 Verify it looks like this:
 
-![Authdb](images/postgres-authdb.png)
+![Authdb](images/authdb.png)
 
 &nbsp;
 
@@ -84,7 +86,7 @@ The project should be ready to run without customization:
 
 3. Press F5 to run the server
 
-4. Run the [Admin App](http://localhost:5656), and Swagger.  Verify that customers returns data.
+4. Run the [Admin App](http://localhost:5656), and Swagger.  Verify that `customers` returns data.
 
 &nbsp;
 
@@ -122,7 +124,7 @@ sh devops/docker-image/build_image.sh .
 
 &nbsp;
 
-## 2. Configure the server
+## 2. Observe the pre-configured server
 
 When run from a container, the database uri using `localhost` (from above) does not work.  Confirm the following in [`devops/docker-image/env.list`](devops/docker-image/env.list):
 
@@ -179,7 +181,7 @@ popd
 
 &nbsp;
 
-## 3. Configure the database service
+## 3. Observe the pre-configured database service
 
 Open [`devops/docker-image/docker-compose.yml`](./devops/docker-compose/docker-compose.yml), and observe:
 
@@ -188,19 +190,19 @@ Open [`devops/docker-image/docker-compose.yml`](./devops/docker-compose/docker-c
         image: apilogicserver/mysql8.0:latest
         restart: always
         environment:
-        # MYSQL_DATABASE: 'db'
-        # So you don't have to use root, but you can if you like
-        MYSQL_USER: 'root'
-        # You can use whatever password you like
-        MYSQL_PASSWORD: 'p'
-        # Password for root access
-        MYSQL_ROOT_PASSWORD: 'p'
+            # MYSQL_DATABASE: 'db'
+            # So you don't have to use root, but you can if you like
+            - MYSQL_USER=root
+            # You can use whatever password you like
+            - MYSQL_PASSWORD=p
+            # Password for root access
+            - MYSQL_ROOT_PASSWORD=p
         ports:
-        # <Port exposed> : <MySQL Port running inside container>
-        - '3306:3306'
+            # <Port exposed> : <MySQL Port running inside container>
+            - '3306:3306'
         expose:
-        # Opens port 3306 on the container
-        - '3306'
+            # Opens port 3306 on the container
+            - '3306'
 ```
 
 &nbsp;
@@ -226,26 +228,27 @@ Then, use the following to build, deploy and start the default container stack l
 
 ```
 # cd docker-compose-mysql-classicmodels  # <project-root>
-# docker-compose -f ./devops/docker-compose/docker-compose.yml up
+# docker-compose -f ./devops/docker-compose/docker-compose.yml --env-file ./devops/docker-compose/env-docker-compose.env up
 ```
 
 Then, in your browser, open [`localhost`](http://localhost).
 
 &nbsp;
 
-## 4. Add Security
+## 4. Observe Pre-configured Security
 
-The database contains `authdb`.  To activate security, update [`devops/docker-compose/docker-compose.yml`](devops/docker-compose/docker-compose.yml):
+The database contains `authdb`.  To activate security, observe [`devops/docker-compose/docker-compose.yml`](devops/docker-compose/docker-compose.yml):
 
 1. Set `- SECURITY_ENABLED=true`
 
 2. Under api-logic-server-environment, observe:
 
-`          - APILOGICPROJECT_SQLALCHEMY_DATABASE_URI_AUTHENTICATION=postgresql://postgres:p@nw_postgres/authdb
+`          - APILOGICPROJECT_SQLALCHEMY_DATABASE_URI_AUTHENTICATION=mysql+pymysql://root:p@mysql-service:3306/authdb
 `
 &nbsp;
 &nbsp;
 
 # Status
 
-Failing to open web app: `502 Bad Gateway`
+Works with API Logic Server > 9.1.33.
+

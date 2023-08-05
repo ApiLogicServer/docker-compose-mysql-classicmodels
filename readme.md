@@ -159,9 +159,9 @@ You can also run the [Authentication Administration App](http://localhost:5656/a
 
 # III. Running the git project as docker-compose
 
-This procedure uses the image built from the step above.
+This procedure build the image dynamically.
 
-Alternatively, you can edit the `devops/docker-compose/docker-compose.yml` file to build it in this step.
+Alternatively, you can edit the `devops/docker-compose/docker-compose.yml` file to use the image built in the prior step.
 
 &nbsp;
 

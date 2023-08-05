@@ -66,13 +66,11 @@ Verify it looks like this:
 
 ## 2. Create the Project:
 
-Create the project with API Logic Server in the directory indicted below, as a sibling of this project obtained from github:
+Create the project with API Logic Server:
 
 ```bash
 ApiLogicServer create --project_name=. --db_url=mysql+pymysql://root:p@localhost:3306/classicmodels
 ```
-
-![Project Structure](images/docker-compose.png)
 
 &nbsp;
 
@@ -81,6 +79,8 @@ ApiLogicServer create --project_name=. --db_url=mysql+pymysql://root:p@localhost
 The project should be ready to run without customization:
 
 1. Open the project in VSCode
+
+![Project Structure](images/docker-compose.png)
 
 2. Establish your (possibly preview) virtual environment
 
@@ -108,6 +108,8 @@ Re-run the project (F5), observe you need to login (***admin, p***).
 &nbsp;
 
 # II. Running the git project as image
+
+First, stop the server.
 
 &nbsp;
 
@@ -220,9 +222,11 @@ Then, in your browser, open [`localhost`](http://localhost).
 
 &nbsp;
 
-### Manual Port configuration
+### Manual Port configuration (not required)
 
-If that fails (e.g., windows), enter your port into [`devops/docker-image/docker-compose.yml`](./devops/docker-compose/docker-compose.yml).
+The shell script above simply obtains your IP address, and stores in in an env file for server.
+
+Alternatively, you can enter your port into [`devops/docker-image/env-docker-compose.env`](./devops/env-docker-compose.env).
 
 Then, use the following to build, deploy and start the default container stack locally:
 
@@ -245,6 +249,7 @@ The database contains `authdb`.  To activate security, observe [`devops/docker-c
 
 `          - APILOGICPROJECT_SQLALCHEMY_DATABASE_URI_AUTHENTICATION=mysql+pymysql://root:p@mysql-service:3306/authdb
 `
+
 &nbsp;
 &nbsp;
 

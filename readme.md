@@ -120,7 +120,6 @@ First, stop the server.
 &nbsp;
 
 ```bash
-cd <project>
 sh devops/docker-image/build_image.sh .
 ```
 
@@ -180,7 +179,6 @@ The procedure below will spin up *another* database container.  If the current d
 The git project does not store these files, so you must obtain them:
 
 ```bash
-pushd devops/docker-compose
 sh install-webapp.sh
 popd
 ```
@@ -218,7 +216,6 @@ Open [`devops/docker-image/docker-compose.yml`](./devops/docker-compose/docker-c
 The following will build, deploy and start the container stack locally:
 
 ```
-# cd ./devops/docker-compose/
 # sh docker-compose.sh     # windows: .\docker-compose.ps
 ```
 

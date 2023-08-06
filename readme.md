@@ -39,7 +39,7 @@ Follow this procedure to obtain the *empty* project from git:
 # cd docker-compose-mysql-classicmodels
 ```
 
-Open the project in your IDE, and estabish your `venv` virtual environment.
+Follow the directions in the readme.
 
 &nbsp;
 
@@ -55,7 +55,6 @@ Follow the steps below:
 
 ```bash
 docker run --name mysql-container --net dev-network -p 3306:3306 -d -e MYSQL_ROOT_PASSWORD=p apilogicserver/mysql8.0:latest
-
 ```
 
 Verify it looks like this:
@@ -179,7 +178,7 @@ The procedure below will spin up *another* database container.  If the current d
 The git project does not store these files, so you must obtain them:
 
 ```bash
-sh devops/docker-image/install-webapp.sh
+sh devops/docker-compose/install-webapp.sh
 ```
 
 &nbsp;
@@ -215,7 +214,7 @@ Open [`devops/docker-image/docker-compose.yml`](./devops/docker-compose/docker-c
 The following will build, deploy and start the container stack locally:
 
 ```
-# sh devops/docker-image/docker-compose.sh     # windows: .\docker-compose.ps
+# sh devops/docker-compose/docker-compose.sh     # windows: .\docker-compose.ps
 ```
 
 Then, in your browser, open [`localhost`](http://localhost).

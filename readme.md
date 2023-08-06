@@ -179,8 +179,7 @@ The procedure below will spin up *another* database container.  If the current d
 The git project does not store these files, so you must obtain them:
 
 ```bash
-sh install-webapp.sh
-popd
+sh devops/docker-image/install-webapp.sh
 ```
 
 &nbsp;
@@ -216,7 +215,7 @@ Open [`devops/docker-image/docker-compose.yml`](./devops/docker-compose/docker-c
 The following will build, deploy and start the container stack locally:
 
 ```
-# sh docker-compose.sh     # windows: .\docker-compose.ps
+# sh devops/docker-image/docker-compose.sh     # windows: .\docker-compose.ps
 ```
 
 Then, in your browser, open [`localhost`](http://localhost).
@@ -232,7 +231,6 @@ Alternatively, you can enter your port into [`devops/docker-image/env-docker-com
 Then, use the following to build, deploy and start the default container stack locally:
 
 ```
-# cd docker-compose-mysql-classicmodels  # <project-root>
 # docker-compose -f ./devops/docker-compose/docker-compose.yml --env-file ./devops/docker-compose/env-docker-compose.env up
 ```
 

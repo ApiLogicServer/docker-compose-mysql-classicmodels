@@ -249,7 +249,53 @@ The database contains `authdb`.  To activate security, observe [`devops/docker-c
 `
 
 &nbsp;
+
+## IV. Deploy to cloud
+
+***Under construction***
+
+Steps to create:
+
+az login
+
+you will be redirected to a browser login page
+
+and then you will see your account information in the CLI
+
 &nbsp;
+
+### Create the database in azure:
+
+```bash
+az container create --resource-group <resource group name> --name postgresql-container --image apilogicserver/postgres:latest --dns-name-label postgresql-container --ports 5432 --environment-variables PGDATA=/pgdata POSTGRES_PASSWORD=p
+```
+
+
+```bash
+az container show --resource-group <resource group name> --name postgresql-container --query "{FQDN:ipAddress.fqdn,ProvisioningState:provisioningState}" --out table
+```
+
+&nbsp;
+
+### Deploy the App Container
+
+```bash
+az container create --resource-group <resource group name> --name <container name> --image <docker hub registry name>/<repository name>:<version> --dns-name-label <container name> --ports 5656 5002 --environment-variables SECURITY_ENABLED=True PYTHONPATH=/app/ApiLogicProject APILOGICPROJECT_SQLALCHEMY_DATABASE_URI=postgresql://postgres:p@postgresql-container.centralus.azurecontainer.io:5432/postgres APILOGICPROJECT_SQLALCHEMY_DATABASE_URI_AUTHENTICATION=postgresql://postgres:p@postgresql-container.centralus.azurecontainer.io:5432/authdb APILOGICPROJECT_SECURITY_ENABLED=True
+```
+
+Verify:
+
+```bash
+az container show --resource-group <resource group name> --name <container name> --query "{FQDN:ipAddress.fqdn,ProvisioningState:provisioningState}" --out table
+```
+
+&nbsp;
+
+
+
+&nbsp;
+&nbsp;
+
 
 # Status
 
